@@ -8,7 +8,7 @@ const { manageJobStatus, manageUser, deleteUser } = require('../controllers/admi
 const { users, updateProfile, ownProfile } = require('../controllers/userController')
 
 // middleware
-const verifyUser = require('../middleware/verifyUser')
+const verifyLogin = require('../middleware/verifyLogin')
 const verifyFreelancer = require('../middleware/verifyFreelancer')
 const verifyAdmin = require('../middleware/verifyAdmin')
 const userVerify = require('../middleware/userVerify')
@@ -16,23 +16,23 @@ const userVerify = require('../middleware/userVerify')
 // auth routes
 router.post('/register', register)
 router.post('/login', login)
-router.put('/change-pass', verifyUser, changePassword)
+router.put('/change-pass', verifyLogin, changePassword)
 
 //user routes
-router.get('/get/users', verifyUser, verifyAdmin, users)
-router.put('/user/update', verifyUser, updateProfile)
-router.get('/user/profile', verifyUser, ownProfile)
+router.get('/get/users', verifyLogin, verifyAdmin, users)
+router.put('/user/update', verifyLogin, updateProfile)
+router.get('/user/profile', verifyLogin, ownProfile)
 
 // job routes
-router.post('/post-job', verifyUser, userVerify, createJob)
-router.put('/update-job/:id', verifyUser, userVerify, updateJob)
-router.delete('/delete-job/:id', verifyUser,userVerify, deleteJob)
-router.get('/get',verifyUser, getJobs)
-router.post('/job/apply/:id', verifyUser, verifyFreelancer, applyForJob)
+router.post('/post-job', verifyLogin, userVerify, createJob)
+router.put('/update-job/:id', verifyLogin, userVerify, updateJob)
+router.delete('/delete-job/:id', verifyLogin,userVerify, deleteJob)
+router.get('/get',verifyLogin, getJobs)
+router.post('/job/apply/:id', verifyLogin, verifyFreelancer, applyForJob)
 
 //admin routes
-router.put('/job/status/:id', verifyUser, verifyAdmin, manageJobStatus)
-router.put('/user/status/:id', verifyUser, verifyAdmin, manageUser)
-router.delete('/user/delete/:id', verifyUser, verifyAdmin, deleteUser)
+router.put('/job/status/:id', verifyLogin, verifyAdmin, manageJobStatus)
+router.put('/user/status/:id', verifyLogin, verifyAdmin, manageUser)
+router.delete('/user/delete/:id', verifyLogin, verifyAdmin, deleteUser)
 
 module.exports = router
