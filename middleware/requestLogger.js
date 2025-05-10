@@ -9,4 +9,9 @@ const requestLogger = (req, res, next) => {
     next()
 }
 
-module.exports = requestLogger
+const addTimeStamps = (req, res, next) => {
+    req.timestamp = new Date().toISOString()
+    next()
+}
+
+module.exports = { requestLogger, addTimeStamps }

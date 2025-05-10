@@ -10,12 +10,21 @@ const corsConfig = require('./config/corsConfig')
 app.use(corsConfig())
 
 //request loggers
-const requestLogger = require('./middleware/requestLogger')
+const { requestLogger, addTimeStamps} = require('./middleware/requestLogger')
 app.use(requestLogger)
+app.use(addTimeStamps)
+
+//rate limit
+const rateLimiter = require('./middleware/rateLimit')
+app.use(rateLimiter(100, 15*60*100))
 
 // Database connection
 const connectToDatabase = require('./database/mongoose')
 connectToDatabase()
+
+/* api v1
+const apiV1 = require('./middleware/apiVersion') 
+app.use(apiV1('v1')) */
 
 // Routes
 const authRoutes = require('./routes/route')
